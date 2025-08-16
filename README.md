@@ -26,7 +26,7 @@ mcpyammy
 
 ## YAML設定ファイル形式
 
-```yaml
+```yaml:servers.yaml
 clients:
   amazonq:
     path: .aws/amazonq/mcp.json
