@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+
+echo "Running pre-commit hooks..."
+
+# Run golangci-lint with auto-fix
+echo "🔍 Running golangci-lint..."
+if command -v golangci-lint >/dev/null 2>&1; then
+    golangci-lint run --fix
+    if [ $? -ne 0 ]; then
+        echo "❌ golangci-lint failed. Please fix the issues and try again."
+        exit 1
+    fi
+    echo "✅ golangci-lint passed"
+else
+    echo "⚠️  golangci-lint not found. Please install it: https://golangci-lint.run/usage/install/"
+    exit 1
+fi
+
+echo "🧪 Running tests..."
+go test ./...
+if [ $? -ne 0 ]; then
+    echo "❌ Tests failed. Please fix the issues and try again."
+    exit 1
+fi
+echo "✅ Tests passed"
+
+git add -A
+
+echo "✅ All pre-commit checks passed!"
